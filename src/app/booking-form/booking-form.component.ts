@@ -32,11 +32,17 @@ export class BookingFormComponent implements OnInit {
     let id = this.activatedRoute.snapshot.paramMap.get('id');
 
     if(id){
-      let booking = this.bookingService.getBooking(id);
+      // let booking = this.bookingService.getBooking(id);
 
-      if(booking){
-        this.bookingForm.patchValue(booking);
-      }
+      // if(booking){
+      //   this.bookingForm.patchValue(booking);
+      // }
+
+      this.bookingService.getBooking(id)?.subscribe(booking=>{
+        if(booking){
+          this.bookingForm.patchValue(booking);
+        }
+      });
     }
   }
 
@@ -50,9 +56,15 @@ export class BookingFormComponent implements OnInit {
       let id = this.activatedRoute.snapshot.paramMap.get('id');
 
       if(id){
-        this.bookingService.updateBooking(id, booking);
+        //this.bookingService.updateBooking(id, booking);
+        this.bookingService.updateBooking(id, booking).subscribe(()=>{
+          console.log("update request processed")
+        });
       }else{
-        this.bookingService.addBooking(booking);
+        //this.bookingService.addBooking(booking);
+        this.bookingService.addBooking(booking).subscribe(()=>{
+          console.log("add request processed")
+        });
       }
       this.router.navigate(['/list']);
     }

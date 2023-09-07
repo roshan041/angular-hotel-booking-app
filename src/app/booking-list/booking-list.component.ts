@@ -15,11 +15,19 @@ export class BookingListComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.bookings = this.bookingService.getBookings();
+    //this.bookings = this.bookingService.getBookings();
+    this.bookingService.getBookings().subscribe(bookings=>{
+      this.bookings = bookings;
+    });
+
   }
 
   deleteBooking(id: string){
-  this.bookingService.deleteBooking(id);
+  //this.bookingService.deleteBooking(id);
+
+  this.bookingService.deleteBooking(id).subscribe(()=>{
+    console.log('deleted');
+  });
   }
 
 }
